@@ -1,0 +1,2 @@
+usuarios = [{'nombre' : 'admin', 'email' : 'administrador@gmail.com', 'contraseña' : 'ad78', 'rol' : 'administrador'},
+{'nombre' : 'maria', 'email' :'maria@gmail.com', 'contraseña' : 'maria41', 'rol' : 'estandar'}]
