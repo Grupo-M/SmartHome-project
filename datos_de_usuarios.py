@@ -1,2 +1,8 @@
-usuarios = [{'nombre' : 'admin', 'email' : 'administrador@gmail.com', 'contraseña' : 'ad78', 'rol' : 'administrador'},
-{'nombre' : 'maria', 'email' :'maria@gmail.com', 'contraseña' : 'maria41', 'rol' : 'estandar'}]
+roles = [
+    {'id_rol': 1, 'nombre': 'administrador', 'descripcion': 'Administrador con todos los permisos'},
+    {'id_rol': 2, 'nombre': 'estandar', 'descripcion': 'Usuario con permisos limitados'}
+]
+
+usuarios = [
+    {'id_usuario': 1, 'nombre_completo': 'Administrador', 'email': 'administrador@gmail.com', 'contraseña': 'ad78', 'rol': 1},
+    {'id_usuario': 2, 'nombre_completo': 'Maria Gomez', 'email': 'maria@gmail.com', 'contraseña': 'maria41', 'rol': 2}]

@@ -1,10 +1,10 @@
 from datos_de_usuarios import usuarios
 
-def registrar_usuario(nombre, email, contraseña):
+def registrar_usuario(nombre_completo, email, contraseña):
     for u in usuarios:
         if u ['email'] == email:
             return False, 'el email ya está registrado'
-    nuevo_usuario = {'nombre' : nombre, 'email' : email, 'contraseña' : contraseña, 'rol' : 'estandar'} #se le asigna rol estandar al registrador.
+    nuevo_usuario = {'nombre_completo' : nombre_completo, 'email' : email, 'contraseña' : contraseña, 'rol' : 'estandar'} #se le asigna rol estandar al registrador.
     usuarios.append(nuevo_usuario)
     return True, 'usuario registrado con exito'
 
@@ -21,5 +21,5 @@ def modificar_rol(email_usuario, nuevo_rol):
     for u in usuarios:
         if u ['email'] == email_usuario:
             u ['rol'] == nuevo_rol
-            return True, f'rol cambiado a {nuevo_rol} para {u['nombre']}'
+            return True, f'rol cambiado a {nuevo_rol} para {u['nombre_completo']}'
         return False, 'usuario no encontrado'
