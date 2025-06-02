@@ -1,6 +1,28 @@
 from dispositivos import listar_dispositivos, buscar_dispositivo, agregar_dispositivo, eliminar_dispositivo
 from automatizaciones import modo_ahorro
 
+def agregar_dispositivo_desde_input():
+    nombre = input("Nombre del nuevo dispositivo: ").strip()
+    if not nombre:
+        print("El nombre es obligatorio.")
+        return
+
+    estado = input("Estado (encendido/apagado) [por defecto apagado]: ").strip().lower()
+    if estado not in ["encendido", "apagado", ""]:
+        print("Estado no válido. Se usará 'apagado' por defecto.")
+        estado = "apagado"
+    if estado == "":
+        estado = "apagado"
+
+    esencial_input = input("¿Es esencial? (s/n) [por defecto n]: ").strip().lower()
+    esencial = esencial_input == 's'
+
+    ubicacion = input("Ubicación del dispositivo (ej: sala, dormitorio, cocina) [por defecto No especificada]: ").strip()
+    if not ubicacion:
+        ubicacion = "No especificada"
+
+    agregar_dispositivo(nombre, estado, esencial, ubicacion)
+
 def mostrar_menu():
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
@@ -25,7 +47,7 @@ def main():
         elif opcion == "2":
             buscar_dispositivo()
         elif opcion == "3":
-            agregar_dispositivo()
+          agregar_dispositivo_desde_input()
         elif opcion == "4":
             eliminar_dispositivo()
         elif opcion == "5":
