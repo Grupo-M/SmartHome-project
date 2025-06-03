@@ -19,22 +19,27 @@ def buscar_dispositivo():
             return
     print("Dispositivo no encontrado.")
 
-def agregar_dispositivo():
-    nombre = input("Nombre del nuevo dispositivo: ")
-    estado = input("Estado (encendido/apagado): ").lower()
-    esencial = input("¿Es esencial? (s/n): ").lower() == 's'
-    ubicacion = input("Ubicación del dispositivo (ej: sala, dormitorio, cocina, etc.): ")
+def agregar_dispositivo(nombre, estado ="apagado", esencial= False, ubicacion ="No especificada"):
+    if not nombre.strip():
+        print("Error: El nombre no puede estar vacío.")
+        return
+
+    if estado not in ["encendido", "apagado"]:
+        print("Error: El estado debe ser 'encendido' o 'apagado'.")
+        return
     if dispositivos:
         max_id = max(d.get("id", 0) for d in dispositivos)
         nuevo_id = max_id + 1
-        
-    dispositivos.append(
-        {"id": nuevo_id,
+    else:
+        nuevo_id = 1
+
+    dispositivos.append({
+        "id": nuevo_id,
         "nombre": nombre,
         "estado": estado,
         "esencial": esencial,
-        "ubicacion": ubicacion}
-        )
+        "ubicacion": ubicacion
+    })
     print("Dispositivo agregado correctamente.")
 
 def eliminar_dispositivo():
