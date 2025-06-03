@@ -1,6 +1,6 @@
 roles = [
-    {'id_rol': 1, 'nombre': 'administrador', 'descripcion': 'Administrador con todos los permisos'},
-    {'id_rol': 2, 'nombre': 'estandar', 'descripcion': 'Usuario con permisos limitados'}
+    {'id_rol': 'administrador', 'nombre': 'administrador', 'descripcion': 'Administrador con todos los permisos'},
+    {'id_rol': 'estandar', 'nombre': 'estandar', 'descripcion': 'Usuario con permisos limitados'}
 ]
 
 usuarios = [

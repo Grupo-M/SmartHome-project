@@ -14,12 +14,15 @@ def validar_usuario(email,contraseña):
             return True, u 
     return False, 'email o contraseña incorrectos'
         
+    
 def modificar_rol(email_usuario, nuevo_rol):
     roles_validos = ['administrador', 'estandar']
     if nuevo_rol not in roles_validos:
-        return False, ' rol no valido'
+        return False, 'rol no válido'
+    
     for u in usuarios:
-        if u ['email'] == email_usuario:
-            u ['rol'] == nuevo_rol
-            return True, f'rol cambiado a {nuevo_rol} para {u['nombre_completo']}'
-        return False, 'usuario no encontrado'
+        if u['email'] == email_usuario:
+            u['rol'] = nuevo_rol
+            return True, f"rol cambiado a {nuevo_rol} para {u['nombre_completo']}"
+    
+    return False, 'usuario no encontrado'
