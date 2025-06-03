@@ -20,6 +20,13 @@ def buscar_dispositivo():
     print("Dispositivo no encontrado.")
 
 def agregar_dispositivo(nombre, estado ="apagado", esencial= False, ubicacion ="No especificada"):
+    if not nombre.strip():
+        print("Error: El nombre no puede estar vacío.")
+        return
+
+    if estado not in ["encendido", "apagado"]:
+        print("Error: El estado debe ser 'encendido' o 'apagado'.")
+        return
     if dispositivos:
         max_id = max(d.get("id", 0) for d in dispositivos)
         nuevo_id = max_id + 1
