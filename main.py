@@ -1,5 +1,64 @@
 from dispositivos import listar_dispositivos, buscar_dispositivo, agregar_dispositivo, eliminar_dispositivo
 from automatizaciones import modo_ahorro
+from usuarios import registrar_usuario, validar_usuario
+from datos_de_usuarios import usuarios
+
+def registrar_usuario_desde_input():
+    print("\n=== Registro de Usuario ===")
+    nombre = input("Nombre completo: ").strip()
+    email = input("Correo electrónico: ").strip().lower()
+    contraseña = input("Contraseña: ").strip()
+    
+    # Si no hay usuarios registrados, asignar rol de administrador al primero
+    if not usuarios:
+        nuevo_usuario = {
+            'nombre_completo': nombre,
+            'email': email,
+            'contraseña': contraseña,
+            'rol': 'administrador'
+        }
+        usuarios.append(nuevo_usuario)
+        print("Primer usuario registrado como administrador.")
+    else:
+        exito, mensaje = registrar_usuario(nombre, email, contraseña)
+        print(mensaje)
+
+
+def iniciar_sesion():
+    print("\n=== Inicio de Sesión ===")
+    email = input("Correo electrónico: ").strip().lower()
+    contraseña = input("Contraseña: ").strip()
+    exito, resultado = validar_usuario(email, contraseña)
+    if exito:
+        print(f"¡Bienvenido {resultado['nombre_completo']}!")
+        return resultado
+    else:
+        print(resultado)
+        return None
+
+
+def menu_usuario_estandar(usuario):
+    while True:
+        print("\n=== MENÚ USUARIO ESTÁNDAR ===")
+        print("1. Consultar datos personales")
+        print("2. Activar Modo Ahorro de Energía")
+        print("3. Consultar dispositivos")
+        print("4. Cerrar sesión")
+        opcion = input("Seleccione una opción: ").strip()
+        if opcion == "1":
+            print(f"\nNombre: {usuario['nombre_completo']}")
+            print(f"Email: {usuario['email']}")
+            print(f"Rol: {usuario['rol']}")
+        elif opcion == "2":
+            modo_ahorro()
+        elif opcion == "3":
+            listar_dispositivos()
+        elif opcion == "4":
+            print("Sesión cerrada.\n")
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
+
 
 def agregar_dispositivo_desde_input():
     nombre = input("Nombre del nuevo dispositivo: ").strip()
