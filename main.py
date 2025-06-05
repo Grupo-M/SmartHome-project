@@ -1,5 +1,5 @@
 from automatizaciones import modo_ahorro
-from dispositivos import agregar_dispositivo, listar_dispositivos, buscar_dispositivo, agregar_dispositivo_desde_input, eliminar_dispositivo
+from dispositivos import agregar_dispositivo, listar_dispositivos, buscar_dispositivo, eliminar_dispositivo
 from usuarios import modificar_rol
 
 
