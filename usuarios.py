@@ -20,7 +20,7 @@ def modificar_rol(email_usuario, nuevo_rol):
     email_usuario = email_usuario.lower().strip()
     nuevo_rol = nuevo_rol.lower().strip()
     if nuevo_rol not in roles_validos:
-        return False, f'rol no válido. Los roles permitidos son: {', '.join(roles_validos)}'
+        return False, f"Rol no válido. Los roles permitidos son: {', '.join(roles_validos)}"
     for u in usuarios:
         if u['email'].lower().strip() == email_usuario:
          if u['rol'] == nuevo_rol:
