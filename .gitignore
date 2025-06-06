@@ -1,2 +1,18 @@
 __pycache__/
 *.pyc
+
+# Ignorar entornos virtuales
+env/
+venv/
+.venv/
+.env/
+
+# Ignorar archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar configuración personal de VSCode
+.vscode/
+
+# Ignorar repositorio embebido por error
+SmartHome-project/
