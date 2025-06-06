@@ -1,0 +1,16 @@
+# Ignorar archivos de Python compilados
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignorar archivos de entorno virtual (si llegás a usar uno)
+env/
+venv/
+
+# Ignorar archivos de configuración de VS Code
+.vscode/
+
+# Ignorar archivos del sistema
+.DS_Store
+Thumbs.db
