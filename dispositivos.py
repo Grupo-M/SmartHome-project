@@ -43,10 +43,23 @@ def agregar_dispositivo(nombre, estado ="apagado", esencial= False, ubicacion ="
     print("Dispositivo agregado correctamente.")
 
 def eliminar_dispositivo():
-    nombre = input("Nombre del dispositivo a eliminar: ")
+    if not dispositivos:
+        print("No hay dispositivos registrados para eliminar.")
+        return
+
+    nombre = input("Nombre del dispositivo a eliminar: ").strip()
+    if not nombre:
+        print("Error: El nombre no puede estar vacío.")
+        return
+
     for d in dispositivos:
         if d["nombre"].lower() == nombre.lower():
-            dispositivos.remove(d)
-            print("Dispositivo eliminado.")
+            confirmacion = input(f"¿Está seguro de que desea eliminar el dispositivo '{d['nombre']}'? (s/n): ").lower()
+            if confirmacion == 's':
+                dispositivos.remove(d)
+                print("Dispositivo eliminado correctamente.")
+            else:
+                print("Eliminación cancelada.")
             return
-    print("No se encontró el dispositivo.")
+
+    print("No se encontró ningún dispositivo con ese nombre.")
