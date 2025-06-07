@@ -1,6 +1,6 @@
 from dispositivos import listar_dispositivos, buscar_dispositivo, agregar_dispositivo, eliminar_dispositivo
 from automatizaciones import modo_ahorro
-from usuarios import registrar_usuario, validar_usuario
+from usuarios import registrar_usuario_desde_input, validar_usuario, modificar_rol
 from datos_de_usuarios import usuarios
 
 def registrar_usuario_desde_input():
@@ -8,20 +8,28 @@ def registrar_usuario_desde_input():
     nombre = input("Nombre completo: ").strip()
     email = input("Correo electrónico: ").strip().lower()
     contraseña = input("Contraseña: ").strip()
-    
-    # Si no hay usuarios registrados, asignar rol de administrador al primero
-    if not usuarios:
+
+    print(f"Usuarios actuales antes de registrar: {usuarios}")  # Depuración
+
+    if not usuarios:  # Verifica que sea el primer usuario
         nuevo_usuario = {
-            'nombre_completo': nombre,
-            'email': email,
-            'contraseña': contraseña,
-            'rol': 'administrador'
+            "nombre_completo": nombre,
+            "email": email,
+            "contraseña": contraseña,
+            "rol": "administrador"
         }
         usuarios.append(nuevo_usuario)
         print("Primer usuario registrado como administrador.")
     else:
-        exito, mensaje = registrar_usuario(nombre, email, contraseña)
-        print(mensaje)
+        nuevo_usuario = {
+            "nombre_completo": nombre,
+            "email": email,
+            "contraseña": contraseña,
+            "rol": "estandar"
+        }
+        usuarios.append(nuevo_usuario)
+        print("Usuario registrado con éxito.")
+
 
 
 def iniciar_sesion():
@@ -35,8 +43,7 @@ def iniciar_sesion():
     else:
         print(resultado)
         return None
-
-
+    
 def menu_usuario_estandar(usuario):
     while True:
         print("\n=== MENÚ USUARIO ESTÁNDAR ===")
@@ -55,6 +62,52 @@ def menu_usuario_estandar(usuario):
             listar_dispositivos()
         elif opcion == "4":
             print("Sesión cerrada.\n")
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
+
+
+def menu_usuario_admin():
+    while True:
+        print("\n=== MENÚ ADMINISTRADOR ===")
+        print("1. Consultar automatizaciones activas (Modo Ahorro)")
+        print("2. Gestionar dispositivos")
+        print("3. Modificar rol de usuario")
+        print("4. Cerrar sesión")
+        opcion = input("Seleccione una opción: ").strip()
+        if opcion == "1":
+            modo_ahorro()
+        elif opcion == "2":
+            menu_gestion_dispositivos()
+        elif opcion == "3":
+            email_usuario = input("Ingrese el email del usuario a modificar: ").strip().lower()
+            nuevo_rol = input("Ingrese el nuevo rol (administrador/estandar): ").strip().lower()
+            exito, mensaje = modificar_rol(email_usuario, nuevo_rol)
+            print(mensaje)
+        elif opcion == "4":
+            print("Sesión cerrada.\n")
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
+    
+def menu_gestion_dispositivos():
+    while True:
+        print("\n--- Gestión de Dispositivos ---")
+        print("1. Listar dispositivos")
+        print("2. Buscar dispositivo")
+        print("3. Agregar dispositivo")
+        print("4. Eliminar dispositivo")
+        print("5. Volver al menú principal")
+        opcion = input("Seleccione una opción: ").strip()
+        if opcion == "1":
+            listar_dispositivos()
+        elif opcion == "2":
+            buscar_dispositivo()
+        elif opcion == "3":
+            agregar_dispositivo_desde_input()
+        elif opcion == "4":
+            eliminar_dispositivo()
+        elif opcion == "5":
             break
         else:
             print("Opción no válida. Intente de nuevo.")
@@ -82,40 +135,33 @@ def agregar_dispositivo_desde_input():
 
     agregar_dispositivo(nombre, estado, esencial, ubicacion)
 
-def mostrar_menu():
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-
-    print(f"\n{BOLD}{OKGREEN}==================== MENÚ ===================={ENDC}")
-    print(f"{OKBLUE}1.{ENDC} Listar dispositivos")
-    print(f"{OKBLUE}2.{ENDC} Buscar dispositivo")
-    print(f"{OKBLUE}3.{ENDC} Agregar dispositivo")
-    print(f"{OKBLUE}4.{ENDC} Eliminar dispositivo")
-    print(f"{OKBLUE}5.{ENDC} Activar Modo Ahorro de Energía")
-    print(f"{OKBLUE}6.{ENDC} Salir")
-    print(f"{BOLD}{OKGREEN}=============================================={ENDC}")
 
 def main():
     while True:
-        mostrar_menu()
-        opcion = input("Seleccione una opción: ")
+        print("\n=== SISTEMA DE AUTOMATIZACIÓN ===")
+        print("1. Registrarse")
+        print("2. Iniciar sesión")
+        print("3. Salir")
+        opcion = input("Seleccione una opción: ").strip()
         if opcion == "1":
-            listar_dispositivos()
+            registrar_usuario_desde_input()
         elif opcion == "2":
-            buscar_dispositivo()
+            usuario = iniciar_sesion()
+            if usuario:
+                if usuario['rol'] == 'administrador':
+                    menu_usuario_admin()
+                else:
+                    menu_usuario_estandar(usuario)
         elif opcion == "3":
-          agregar_dispositivo_desde_input()
-        elif opcion == "4":
-            eliminar_dispositivo()
-        elif opcion == "5":
-            modo_ahorro()
-        elif opcion == "6":
-            print("Saliendo del sistema...")
+            print("¡Hasta luego!")
             break
         else:
             print("Opción no válida. Intente de nuevo.")
 
+
 if __name__ == "__main__":
     main()
+
+
+
+
