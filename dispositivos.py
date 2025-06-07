@@ -8,18 +8,38 @@ def listar_dispositivos():
             esencial_texto = "Esencial" if d["esencial"] else "No esencial"
             ubicacion = d.get("ubicacion", "No especificada")
             print(f"ID: {d['id']} | {d['nombre']} - Estado: {d['estado']} - {esencial_texto} - Ubicación: {ubicacion}")
-            
-def buscar_dispositivo():
-    nombre = input("Ingrese el nombre del dispositivo a buscar: ")
-    for d in dispositivos:
-        if nombre.lower() in d["nombre"].lower():
-            esencial_texto = "Esencial" if d["esencial"] else "No esencial"
-            ubicacion = d.get("ubicacion", "No especificada")
-            print(f"ID: {d['id']} - {d['nombre']} | Estado: {d['estado']} | {esencial_texto} | Ubicación: {ubicacion}")
-            return
-    print("Dispositivo no encontrado.")
 
-def agregar_dispositivo(nombre, estado ="apagado", esencial= False, ubicacion ="No especificada"):
+def buscar_dispositivo():
+    if not dispositivos:
+        print("No hay dispositivos para buscar.")
+        return
+
+    nombre_busqueda = input("Ingrese el nombre del dispositivo a buscar: ").strip() 
+    if not nombre_busqueda: 
+        print("Formato incorrecto, por favor ingrese un nombre válido.")
+        return
+
+    coincidencias = []
+    busqueda_lower = nombre_busqueda.lower()
+
+    for d in dispositivos:
+        if busqueda_lower in d.get("nombre", "").lower():
+            coincidencias.append(d)
+
+    if not coincidencias:
+        print(f"No se encontró ningún dispositivo que coincida con '{nombre_busqueda}'.")
+    else:
+        print(f"\n--- Resultados de búsqueda para '{nombre_busqueda}' ---")
+        if len(coincidencias) > 1:
+            print(f"Se encontraron {len(coincidencias)} coincidencias:")
+        
+        for d in coincidencias:
+            esencial_texto = "Esencial" if d.get("esencial", False) else "No esencial"
+            ubicacion = d.get("ubicacion", "No especificada")
+            print(f"ID: {d.get('id', 'N/A')} | {d.get('nombre', 'Nombre Desconocido')} - Estado: {d.get('estado', 'N/A')} | {esencial_texto} | Ubicación: {ubicacion}")
+        print("---------------------------------------")
+
+def agregar_dispositivo(nombre, estado="apagado", esencial=False, ubicacion="No especificada"):
     if not nombre.strip():
         print("Error: El nombre no puede estar vacío.")
         return
@@ -27,6 +47,7 @@ def agregar_dispositivo(nombre, estado ="apagado", esencial= False, ubicacion ="
     if estado not in ["encendido", "apagado"]:
         print("Error: El estado debe ser 'encendido' o 'apagado'.")
         return
+
     if dispositivos:
         max_id = max(d.get("id", 0) for d in dispositivos)
         nuevo_id = max_id + 1
