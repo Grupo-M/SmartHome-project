@@ -1,7 +1,7 @@
 from dispositivos import listar_dispositivos, buscar_dispositivo, agregar_dispositivo, eliminar_dispositivo
-from usuarios import validar_usuario
+from automatizaciones import modo_ahorro
+from usuarios import registrar_usuario_desde_input, validar_usuario, modificar_rol
 from datos_de_usuarios import usuarios
-
 
 def registrar_usuario_desde_input():
     print("\n=== Registro de Usuario ===")
@@ -44,6 +44,52 @@ def iniciar_sesion():
         print(resultado)
         return None
     
+def menu_usuario_estandar(usuario):
+    while True:
+        print("\n=== MENÚ USUARIO ESTÁNDAR ===")
+        print("1. Consultar datos personales")
+        print("2. Activar Modo Ahorro de Energía")
+        print("3. Consultar dispositivos")
+        print("4. Cerrar sesión")
+        opcion = input("Seleccione una opción: ").strip()
+        if opcion == "1":
+            print(f"\nNombre: {usuario['nombre_completo']}")
+            print(f"Email: {usuario['email']}")
+            print(f"Rol: {usuario['rol']}")
+        elif opcion == "2":
+            modo_ahorro()
+        elif opcion == "3":
+            listar_dispositivos()
+        elif opcion == "4":
+            print("Sesión cerrada.\n")
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
+
+
+def menu_usuario_admin():
+    while True:
+        print("\n=== MENÚ ADMINISTRADOR ===")
+        print("1. Consultar automatizaciones activas (Modo Ahorro)")
+        print("2. Gestionar dispositivos")
+        print("3. Modificar rol de usuario")
+        print("4. Cerrar sesión")
+        opcion = input("Seleccione una opción: ").strip()
+        if opcion == "1":
+            modo_ahorro()
+        elif opcion == "2":
+            menu_gestion_dispositivos()
+        elif opcion == "3":
+            email_usuario = input("Ingrese el email del usuario a modificar: ").strip().lower()
+            nuevo_rol = input("Ingrese el nuevo rol (administrador/estandar): ").strip().lower()
+            exito, mensaje = modificar_rol(email_usuario, nuevo_rol)
+            print(mensaje)
+        elif opcion == "4":
+            print("Sesión cerrada.\n")
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
+    
 def menu_gestion_dispositivos():
     while True:
         print("\n--- Gestión de Dispositivos ---")
@@ -65,6 +111,8 @@ def menu_gestion_dispositivos():
             break
         else:
             print("Opción no válida. Intente de nuevo.")
+
+
 
 
 def agregar_dispositivo_desde_input():
