@@ -1,5 +1,71 @@
 from dispositivos import listar_dispositivos, buscar_dispositivo, agregar_dispositivo, eliminar_dispositivo
-from automatizaciones import modo_ahorro
+from usuarios import validar_usuario
+from datos_de_usuarios import usuarios
+
+
+def registrar_usuario_desde_input():
+    print("\n=== Registro de Usuario ===")
+    nombre = input("Nombre completo: ").strip()
+    email = input("Correo electrónico: ").strip().lower()
+    contraseña = input("Contraseña: ").strip()
+
+    print(f"Usuarios actuales antes de registrar: {usuarios}")  # Depuración
+
+    if not usuarios:  # Verifica que sea el primer usuario
+        nuevo_usuario = {
+            "nombre_completo": nombre,
+            "email": email,
+            "contraseña": contraseña,
+            "rol": "administrador"
+        }
+        usuarios.append(nuevo_usuario)
+        print("Primer usuario registrado como administrador.")
+    else:
+        nuevo_usuario = {
+            "nombre_completo": nombre,
+            "email": email,
+            "contraseña": contraseña,
+            "rol": "estandar"
+        }
+        usuarios.append(nuevo_usuario)
+        print("Usuario registrado con éxito.")
+
+
+
+def iniciar_sesion():
+    print("\n=== Inicio de Sesión ===")
+    email = input("Correo electrónico: ").strip().lower()
+    contraseña = input("Contraseña: ").strip()
+    exito, resultado = validar_usuario(email, contraseña)
+    if exito:
+        print(f"¡Bienvenido {resultado['nombre_completo']}!")
+        return resultado
+    else:
+        print(resultado)
+        return None
+    
+def menu_gestion_dispositivos():
+    while True:
+        print("\n--- Gestión de Dispositivos ---")
+        print("1. Listar dispositivos")
+        print("2. Buscar dispositivo")
+        print("3. Agregar dispositivo")
+        print("4. Eliminar dispositivo")
+        print("5. Volver al menú principal")
+        opcion = input("Seleccione una opción: ").strip()
+        if opcion == "1":
+            listar_dispositivos()
+        elif opcion == "2":
+            buscar_dispositivo()
+        elif opcion == "3":
+            agregar_dispositivo_desde_input()
+        elif opcion == "4":
+            eliminar_dispositivo()
+        elif opcion == "5":
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
+
 
 def agregar_dispositivo_desde_input():
     nombre = input("Nombre del nuevo dispositivo: ").strip()
@@ -23,40 +89,33 @@ def agregar_dispositivo_desde_input():
 
     agregar_dispositivo(nombre, estado, esencial, ubicacion)
 
-def mostrar_menu():
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-
-    print(f"\n{BOLD}{OKGREEN}==================== MENÚ ===================={ENDC}")
-    print(f"{OKBLUE}1.{ENDC} Listar dispositivos")
-    print(f"{OKBLUE}2.{ENDC} Buscar dispositivo")
-    print(f"{OKBLUE}3.{ENDC} Agregar dispositivo")
-    print(f"{OKBLUE}4.{ENDC} Eliminar dispositivo")
-    print(f"{OKBLUE}5.{ENDC} Activar Modo Ahorro de Energía")
-    print(f"{OKBLUE}6.{ENDC} Salir")
-    print(f"{BOLD}{OKGREEN}=============================================={ENDC}")
 
 def main():
     while True:
-        mostrar_menu()
-        opcion = input("Seleccione una opción: ")
+        print("\n=== SISTEMA DE AUTOMATIZACIÓN ===")
+        print("1. Registrarse")
+        print("2. Iniciar sesión")
+        print("3. Salir")
+        opcion = input("Seleccione una opción: ").strip()
         if opcion == "1":
-            listar_dispositivos()
+            registrar_usuario_desde_input()
         elif opcion == "2":
-            buscar_dispositivo()
+            usuario = iniciar_sesion()
+            if usuario:
+                if usuario['rol'] == 'administrador':
+                    menu_usuario_admin()
+                else:
+                    menu_usuario_estandar(usuario)
         elif opcion == "3":
-          agregar_dispositivo_desde_input()
-        elif opcion == "4":
-            eliminar_dispositivo()
-        elif opcion == "5":
-            modo_ahorro()
-        elif opcion == "6":
-            print("Saliendo del sistema...")
+            print("¡Hasta luego!")
             break
         else:
             print("Opción no válida. Intente de nuevo.")
 
+
 if __name__ == "__main__":
     main()
+
+
+
+
