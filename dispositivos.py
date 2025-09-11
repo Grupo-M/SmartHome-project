@@ -46,20 +46,39 @@ def listar_dispositivos():
     else:
         for d in dispositivos:
             esencial_texto = "Esencial" if d["esencial"] else "No esencial"
-            ubicacion = d.get("ubicacion", "No especificada")
-            print(f"ID: {d['id']} | {d['nombre']} - Estado: {d['estado']} - {esencial_texto} - Ubicación: {ubicacion}")
-            
+            ubicacion_nombre = nombre_ubicacion_por_id(d.get("id_ubicacion"))
+            print(
+                f"ID: {d['id']} | {d['nombre']} - Estado: {d['estado']} - "
+                f"{esencial_texto} - Ubicación: {ubicacion_nombre}"
+            )
+
+
 def buscar_dispositivo():
-    nombre = input("Ingrese el nombre del dispositivo a buscar: ")
+    """Busca un dispositivo por nombre e imprime su información."""
+    nombre = input("Ingrese el nombre del dispositivo a buscar: ").strip()
     for d in dispositivos:
         if nombre.lower() in d["nombre"].lower():
             esencial_texto = "Esencial" if d["esencial"] else "No esencial"
-            ubicacion = d.get("ubicacion", "No especificada")
-            print(f"ID: {d['id']} - {d['nombre']} | Estado: {d['estado']} | {esencial_texto} | Ubicación: {ubicacion}")
+            ubicacion_nombre = nombre_ubicacion_por_id(d.get("id_ubicacion"))
+            print(
+                f"ID: {d['id']} - {d['nombre']} | Estado: {d['estado']} | "
+                f"{esencial_texto} | Ubicación: {ubicacion_nombre}"
+            )
             return
     print("Dispositivo no encontrado.")
 
-def agregar_dispositivo(nombre, estado ="apagado", esencial= False, ubicacion ="No especificada"):
+
+def agregar_dispositivo(
+    nombre,
+    estado="apagado",
+    esencial=False,
+    nombre_ubicacion="No especificada",
+    id_casa=1,
+):
+    """
+    Agrega un nuevo dispositivo a la lista.
+    Valida el nombre, estado y ubicación antes de registrarlo.
+    """
     if not nombre.strip():
         print("Error: El nombre no puede estar vacío.")
         return
@@ -67,11 +86,9 @@ def agregar_dispositivo(nombre, estado ="apagado", esencial= False, ubicacion ="
     if estado not in ["encendido", "apagado"]:
         print("Error: El estado debe ser 'encendido' o 'apagado'.")
         return
-    if dispositivos:
-        max_id = max(d.get("id", 0) for d in dispositivos)
-        nuevo_id = max_id + 1
-    else:
-        nuevo_id = 1
+
+    nuevo_id = max((d.get("id", 0) for d in dispositivos), default=0) + 1
+    id_ubicacion = obtener_id_ubicacion(nombre_ubicacion, id_casa)
 
     dispositivos.append(
         {
@@ -86,14 +103,12 @@ def agregar_dispositivo(nombre, estado ="apagado", esencial= False, ubicacion ="
 
 
 def eliminar_dispositivo():
-    nombre = input("Nombre del dispositivo a eliminar: ")
-    for d in dispositivos:
+    """Elimina un dispositivo de la lista por su nombre."""
+    nombre = input("Nombre del dispositivo a eliminar: ").strip()
+    for d in list(dispositivos):
         if d["nombre"].lower() == nombre.lower():
-            confirmacion = input(f"¿Está seguro de que desea eliminar el dispositivo '{d['nombre']}'? (s/n): ").lower()
-            if confirmacion == 's':
-                dispositivos.remove(d)
-                print("Dispositivo eliminado correctamente.")
-            else:
-                print("Eliminación cancelada.")
+            dispositivos.remove(d)
+            print("Dispositivo eliminado.")
             return
     print("No se encontró el dispositivo.")
+
