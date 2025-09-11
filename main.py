@@ -8,7 +8,6 @@ from dispositivos import (
 )
 from automatizaciones import modo_ahorro
 
-
 def agregar_dispositivo_desde_input():
     """Solicita datos por consola y agrega un dispositivo nuevo."""
     nombre = input("Nombre del nuevo dispositivo: ").strip()
@@ -39,35 +38,40 @@ def agregar_dispositivo_desde_input():
 
     agregar_dispositivo(nombre, estado, esencial, ubicacion)
 
-
 def mostrar_menu():
-    """Muestra el menú principal de opciones en consola."""
-    ok_blue = "\033[94m"
-    ok_green = "\033[92m"
-    endc = "\033[0m"
-    bold = "\033[1m"
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
 
-    print(f"\n{bold}{ok_green}==================== MENÚ ===================={endc}")
-    print(f"{ok_blue}1.{endc} Listar dispositivos")
-    print(f"{ok_blue}2.{endc} Buscar dispositivo")
-    print(f"{ok_blue}3.{endc} Agregar dispositivo")
-    print(f"{ok_blue}4.{endc} Eliminar dispositivo")
-    print(f"{ok_blue}5.{endc} Activar Modo Ahorro de Energía")
-    print(f"{ok_blue}6.{endc} Salir")
-    print(f"{bold}{ok_green}=============================================={endc}")
-
+    print(f"\n{BOLD}{OKGREEN}==================== MENÚ ===================={ENDC}")
+    print(f"{OKBLUE}1.{ENDC} Listar dispositivos")
+    print(f"{OKBLUE}2.{ENDC} Buscar dispositivo")
+    print(f"{OKBLUE}3.{ENDC} Agregar dispositivo")
+    print(f"{OKBLUE}4.{ENDC} Eliminar dispositivo")
+    print(f"{OKBLUE}5.{ENDC} Activar Modo Ahorro de Energía")
+    print(f"{OKBLUE}6.{ENDC} Salir")
+    print(f"{BOLD}{OKGREEN}=============================================={ENDC}")
 
 def main():
     """Ejecuta el bucle principal del sistema."""
     while True:
-        mostrar_menu()
-        opcion = input("Seleccione una opción: ")
+        print("\n=== SISTEMA DE AUTOMATIZACIÓN ===")
+        print("1. Registrarse")
+        print("2. Iniciar sesión")
+        print("3. Salir")
+        opcion = input("Seleccione una opción: ").strip()
         if opcion == "1":
-            listar_dispositivos()
+            registrar_usuario_desde_input()
         elif opcion == "2":
-            buscar_dispositivo()
+            usuario = iniciar_sesion()
+            if usuario:
+                if usuario['rol'] == 'administrador':
+                    menu_usuario_admin()
+                else:
+                    menu_usuario_estandar(usuario)
         elif opcion == "3":
-            agregar_dispositivo_desde_input()
+          agregar_dispositivo_desde_input()
         elif opcion == "4":
             eliminar_dispositivo()
         elif opcion == "5":
@@ -81,4 +85,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

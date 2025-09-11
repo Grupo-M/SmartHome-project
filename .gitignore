@@ -14,6 +14,3 @@ Thumbs.db
 
 # Ignorar configuración personal de VSCode
 .vscode/
-
-# Ignorar repositorio embebido por error
-SmartHome-project/
