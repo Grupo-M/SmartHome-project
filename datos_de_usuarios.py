@@ -1,8 +1,15 @@
-roles = [
-    {'id_rol': 'administrador', 'nombre': 'administrador', 'descripcion': 'Administrador con todos los permisos'},
-    {'id_rol': 'estandar', 'nombre': 'estandar', 'descripcion': 'Usuario con permisos limitados'}
-]
+"""Módulo que contiene la lista de usuarios registrados."""
 
 usuarios = [
-    {'id_usuario': 1, 'nombre_completo': 'Administrador', 'email': 'administrador@gmail.com', 'contraseña': 'ad78', 'rol': 1},
-    {'id_usuario': 2, 'nombre_completo': 'Maria Gomez', 'email': 'maria@gmail.com', 'contraseña': 'maria41', 'rol': 2}]
+    {
+        "nombre_completo": "Juan Pérez",
+        "email": "juan@example.com",
+        "contrasena": "1234",
+    },
+    {
+        "nombre_completo": "Ana Gómez",
+        "email": "ana@example.com",
+        "contrasena": "abcd",
+    },
+]
+
