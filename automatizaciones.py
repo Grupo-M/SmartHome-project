@@ -1,15 +1,9 @@
-"""Módulo con automatizaciones del sistema SmartHome."""
-
 from datos import dispositivos
 
-
 def modo_ahorro():
-    """
-    Activa el modo de ahorro de energía:
-    Apaga todos los dispositivos que no sean esenciales.
-    """
+    contador = 0
     for d in dispositivos:
-        if not d["esencial"]:
+        if not d.get("esencial", False) and d["estado"] != "apagado":
             d["estado"] = "apagado"
-    print("Modo Ahorro de Energía activado. Dispositivos no esenciales apagados.")
-
+            contador += 1
+    print(f"Modo Ahorro activado. {contador} dispositivos no esenciales fueron apagados.")
