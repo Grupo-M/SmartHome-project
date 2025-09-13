@@ -5,7 +5,8 @@ roles = [
 ]
 
 # Lista de usuarios (coherente con la tabla Usuario del modelo relacional)
-#Corrección: antes se guardaba el rol como texto, ahora se usa id_rol (FK) para mantener consistencia con el modelo relacional.
+#Corrección: antes se guardaba el rol como texto, ahora se usa id_rol (FK) para
+# mantener consistencia con el modelo relacional.
 
 usuarios = [
     {
@@ -23,3 +24,4 @@ usuarios = [
         "id_rol": 2
     }
 ]
+

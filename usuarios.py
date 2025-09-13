@@ -25,7 +25,7 @@ def registrar_usuario(nombre_completo, email, contraseña):
     nuevo_id = max((u.get("id_usuario", 0) for u in usuarios), default=0) + 1
 
     if not usuarios:
-        # Primer usuario → administrador
+        
         id_rol = _id_rol_por_nombre("administrador") or 1
     else:
         id_rol = _id_rol_por_nombre("estandar") or 2
@@ -51,7 +51,7 @@ def validar_usuario(email, contraseña):
         if u['email'].lower() == email and u['contraseña'] == contraseña:
             #Corrección: se obtiene el nombre del rol desde id_rol para mostrarlo, manteniendo el dato real como entero (FK).
             rol_nombre = next((r["nombre"] for r in roles if r["id_rol"] == u["id_rol"]), "desconocido")
-            u["rol"] = rol_nombre  # Campo temporal solo para visualización en menús.
+            u["rol"] = rol_nombre
             return True, u
     return False, 'Email o contraseña incorrectos'
 

@@ -13,3 +13,4 @@ def modo_ahorro():
         if not d["esencial"]:
             d["estado"] = "apagado"
     print("Modo Ahorro de Energía activado. Dispositivos no esenciales apagados.")
+

@@ -4,9 +4,9 @@ Contiene el flujo principal del programa, incluyendo:
 - Registro e inicio de sesión de usuarios.
 - Menús para usuarios estándar y administradores.
 - Gestión de dispositivos.
+- Gestión de casas.
 - Activación de automatizaciones.
 """
-
 from usuarios import registrar_usuario, validar_usuario, modificar_rol
 from datos_de_usuarios import usuarios
 from automatizaciones import modo_ahorro
@@ -16,6 +16,7 @@ from dispositivos import (
     agregar_dispositivo,
     eliminar_dispositivo,
 )
+from casas import listar_casas, agregar_casa  # 🔹 Nuevo import
 
 # ---------------- MENÚS DE USUARIO ---------------- #
 
@@ -39,7 +40,7 @@ def iniciar_sesion():
     exito, resultado = validar_usuario(email, contraseña)
     if exito:
         # Corrección: validar_usuario() devuelve id_rol y añade 'rol' solo para mostrarlo en el menú.
-        print(f"¡Bienvenido {resultado['nombre_completo']}!") # type: ignore
+        print(f"¡Bienvenido {resultado['nombre_completo']}!")  # type: ignore
         return resultado
     print(resultado)
     return None
@@ -69,6 +70,33 @@ def menu_usuario_estandar(usuario):
         else:
             print("Opción no válida. Intente de nuevo.")
 
+# ---------------- MENÚ DE CASAS ---------------- #
+
+def menu_gestion_casas():
+    """Muestra el menú de gestión de casas y ejecuta la opción seleccionada."""
+    while True:
+        print("\n--- Gestión de Casas ---")
+        print("1. Listar casas")
+        print("2. Agregar casa")
+        print("3. Volver al menú anterior")
+        opcion = input("Seleccione una opción: ").strip()
+        if opcion == "1":
+            listar_casas()
+        elif opcion == "2":
+            nombre_casa = input("Nombre de la casa: ").strip()
+            direccion = input("Dirección: ").strip()
+            try:
+                id_usuario = int(input("ID del usuario propietario: ").strip())
+            except ValueError:
+                print("ID de usuario inválido.")
+                continue
+            agregar_casa(nombre_casa, direccion, id_usuario)
+        elif opcion == "3":
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
+
+# ---------------- MENÚ ADMINISTRADOR ---------------- #
 
 def menu_usuario_admin():
     """Muestra el menú y opciones disponibles para un usuario administrador."""
@@ -77,7 +105,8 @@ def menu_usuario_admin():
         print("1. Consultar automatizaciones activas (Modo Ahorro)")
         print("2. Gestionar dispositivos")
         print("3. Modificar rol de usuario")
-        print("4. Cerrar sesión")
+        print("4. Gestionar casas")  # 🔹 Nueva opción
+        print("5. Cerrar sesión")
         opcion = input("Seleccione una opción: ").strip()
         if opcion == "1":
             modo_ahorro()
@@ -90,6 +119,8 @@ def menu_usuario_admin():
             exito, mensaje = modificar_rol(email_usuario, nuevo_rol)
             print(mensaje)
         elif opcion == "4":
+            menu_gestion_casas()
+        elif opcion == "5":
             print("Sesión cerrada.\n")
             break
         else:
@@ -161,7 +192,7 @@ def main():
             usuario = iniciar_sesion()
             if usuario:
                 # Corrección: la lógica de menú usa 'rol' solo para mostrar, pero el dato real se guarda como id_rol.
-                if usuario['rol'] == 'administrador': # type: ignore
+                if usuario['rol'] == 'administrador':  # type: ignore
                     menu_usuario_admin()
                 else:
                     menu_usuario_estandar(usuario)
@@ -173,3 +204,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
