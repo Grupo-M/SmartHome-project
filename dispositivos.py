@@ -8,6 +8,7 @@ def obtener_id_ubicacion(nombre_ubicacion, id_casa=1):
     Busca el id_ubicacion según el nombre y la casa.
     Si no existe, crea una nueva ubicación y devuelve su id.
     """
+    #Corrección: ahora se trabaja siempre con id_ubicacion (FK) en vez de texto para mantener consistencia con el modelo relacional.
     nombre_ubicacion = nombre_ubicacion.strip().lower()
     for u in ubicaciones:
         if (
@@ -33,6 +34,7 @@ def nombre_ubicacion_por_id(id_ubicacion):
     Devuelve el nombre de la ubicación dado su id.
     Si no se encuentra, devuelve "No especificada".
     """
+    #Corrección: función adaptada para obtener el nombre desde id_ubicacion, evitando almacenar texto directamente en dispositivos.
     for u in ubicaciones:
         if u["id_ubicacion"] == id_ubicacion:
             return u["nombre_ubicacion"]
@@ -46,6 +48,7 @@ def listar_dispositivos():
     else:
         for d in dispositivos:
             esencial_texto = "Esencial" if d["esencial"] else "No esencial"
+            #Corrección: ahora se obtiene la ubicación usando id_ubicacion y nombre_ubicacion_por_id().
             ubicacion_nombre = nombre_ubicacion_por_id(d.get("id_ubicacion"))
             print(
                 f"ID: {d['id']} | {d['nombre']} - Estado: {d['estado']} - "
@@ -59,6 +62,7 @@ def buscar_dispositivo():
     for d in dispositivos:
         if nombre.lower() in d["nombre"].lower():
             esencial_texto = "Esencial" if d["esencial"] else "No esencial"
+            #Corrección: búsqueda adaptada para mostrar ubicación a partir de id_ubicacion.
             ubicacion_nombre = nombre_ubicacion_por_id(d.get("id_ubicacion"))
             print(
                 f"ID: {d['id']} - {d['nombre']} | Estado: {d['estado']} | "
@@ -88,6 +92,7 @@ def agregar_dispositivo(
         return
 
     nuevo_id = max((d.get("id", 0) for d in dispositivos), default=0) + 1
+    #Corrección: la ubicación ingresada se convierte a id_ubicacion usando obtener_id_ubicacion().
     id_ubicacion = obtener_id_ubicacion(nombre_ubicacion, id_casa)
 
     dispositivos.append(
@@ -96,7 +101,7 @@ def agregar_dispositivo(
             "nombre": nombre.strip(),
             "estado": estado,
             "esencial": bool(esencial),
-            "id_ubicacion": id_ubicacion,
+            "id_ubicacion": id_ubicacion,  #Corrección: se guarda id_ubicacion (FK) en vez de texto.
         }
     )
     print("Dispositivo agregado correctamente.")
@@ -111,4 +116,3 @@ def eliminar_dispositivo():
             print("Dispositivo eliminado.")
             return
     print("No se encontró el dispositivo.")
-
